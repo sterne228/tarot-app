@@ -1,0 +1,13 @@
+# Dependencies
+node_modules
+
+# Build output
+dist
+
+# Vercel
+.vercel
+
+# System
+.DS_Store
+
+# 注意：public/decks/ 不要忽略，牌组图片需要部署

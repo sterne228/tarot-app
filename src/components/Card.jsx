@@ -13,9 +13,11 @@ export const Card = ({
   isFlipped,
   isSelected,
   isTopStackedCard,
+  backImage,
   onDragStart,
   onDragEnd,
-  onClick
+  onClick,
+  onRotate
 }) => {
   const cardWidth = 100;
   // 长宽比 1.5
@@ -93,17 +95,71 @@ export const Card = ({
     targetX = Math.max(minX, Math.min(maxX, rawX));
     targetY = Math.max(minY, Math.min(maxY, rawY));
     
-    targetRotateZ = 0;
+    targetRotateZ = card.boardRotation || 0;
     zIndex = 100 + card.deckIndex;
     targetScale = globalScale;
   }
 
-  const isDraggable =
-    (status === 'board') ||
-    (status === 'deck' && isFanned && isSelected) ||
-    (status === 'deck' && !isFanned && isTopStackedCard);
+  const [localRotation, setLocalRotation] = useState(card.boardRotation || 0);
+  const currentRotationRef = React.useRef(card.boardRotation || 0);
+  
+  // 同步外部状态
+  useEffect(() => {
+    currentRotationRef.current = card.boardRotation || 0;
+    setLocalRotation(card.boardRotation || 0);
+  }, [card.boardRotation]);
 
-  const currentRotateZ = isDragging ? 0 : targetRotateZ;
+  const rotationTimer = React.useRef(null);
+  const isLongPressActive = React.useRef(false);
+  const [isRotating, setIsRotating] = useState(false);
+
+  const startRotateTimer = () => {
+    if (status !== 'board') return;
+    if (!isFlipped) return; // 未翻面时（背面）禁止旋转
+    
+    // 长按 300ms 后才开始施加旋转效果
+    rotationTimer.current = setTimeout(() => {
+      isLongPressActive.current = true;
+      setIsRotating(true);
+      currentRotationRef.current += 90;
+      setLocalRotation(currentRotationRef.current);
+      
+      // 之后每隔 500ms 旋转一次
+      rotationTimer.current = setInterval(() => {
+        currentRotationRef.current += 90;
+        setLocalRotation(currentRotationRef.current);
+      }, 500);
+    }, 300);
+  };
+
+  const stopRotateTimer = () => {
+    if (rotationTimer.current) {
+      clearTimeout(rotationTimer.current);
+      clearInterval(rotationTimer.current);
+      rotationTimer.current = null;
+      
+      if (isLongPressActive.current) {
+        if (onRotate) {
+          onRotate(card.id, currentRotationRef.current);
+        }
+        // 延迟清除 long press 状态，防止被 onClick 劫持
+        setTimeout(() => {
+          isLongPressActive.current = false;
+          setIsRotating(false);
+        }, 50);
+      }
+    }
+  };
+
+  const isDraggable =
+    ((status === 'board') ||
+    (status === 'deck' && isFanned && isSelected) ||
+    (status === 'deck' && !isFanned && isTopStackedCard)) && !isRotating;
+
+  let currentRotateZ = isDragging ? 0 : targetRotateZ;
+  if (status === 'board') {
+     currentRotateZ = localRotation;
+  }
 
   useEffect(() => {
     if (!isDragging) {
@@ -111,75 +167,86 @@ export const Card = ({
       animate(x, targetX, { type: 'spring', stiffness: status === 'deck' ? 200 : 350, damping: 25 });
       animate(y, targetY, { type: 'spring', stiffness: status === 'deck' ? 200 : 350, damping: 25 });
     }
-  }, [targetX, targetY, targetScale, isDragging, status, x, y, scale]);
+  }, [targetX, targetY, targetScale, isDragging, status, x, y, scale, isRotating]);
 
   return (
-    <motion.div
-      className={`card-element absolute flex items-center justify-center ${isDraggable ? 'cursor-grab active:cursor-grabbing' : 'cursor-default'}`}
+    <div
+      className={`card-element absolute flex items-center justify-center`}
       style={{
-        x,
-        y,
-        scale,
         width: cardWidth,
         height: cardHeight,
         top: '50%',
         left: '50%',
         marginTop: -cardHeight / 2,
         marginLeft: -cardWidth / 2,
-        perspective: 1000,
-        touchAction: 'none'
-      }}
-      drag={isDraggable}
-      dragMomentum={false}
-      dragElastic={0}
-      whileDrag={{ scale: 1.05 * targetScale }}
-      onDragStart={() => {
-        setIsDragging(true);
-        if (onDragStart) onDragStart(); // 向 App 锁死滑动底层
-      }}
-      onDragEnd={(e, info) => {
-        setIsDragging(false);
-        const isDragHorizontal = Math.abs(info.offset.x) > 30;
-        
-        // 我们利用纯粹的当前底层 x.get() 等真实物理坐标计算出下个周期的落点
-        onDragEnd(card.id, x.get(), y.get(), status, isDragHorizontal);
-      }}
-      onClick={(e) => {
-        e.stopPropagation();
-        onClick(card.id);
-      }}
-      animate={{
-        rotateZ: currentRotateZ,
-        rotateY: targetRotateY,
-        zIndex: isDragging ? 999 : zIndex
-      }}
-      initial={false}
-      transition={{
-        type: "spring",
-        stiffness: 300,
-        damping: 30
+        perspective: 1200,
+        pointerEvents: 'none',
       }}
     >
-      <div
-        className="relative w-full h-full rounded-xl transition-shadow duration-300"
-        style={{ transformStyle: 'preserve-3d' }}
+      <motion.div
+        className={`w-full h-full ${isDraggable ? 'cursor-grab active:cursor-grabbing' : 'cursor-default'}`}
+        style={{
+          x,
+          y,
+          scale,
+          transformStyle: 'preserve-3d',
+          touchAction: 'none',
+          pointerEvents: 'auto',
+        }}
+        drag={isDraggable}
+        dragMomentum={false}
+        dragElastic={0}
+        whileDrag={{ scale: 1.05 * targetScale }}
+        onPointerDown={startRotateTimer}
+        onPointerUp={stopRotateTimer}
+        onPointerCancel={stopRotateTimer}
+        onPointerLeave={stopRotateTimer}
+        onDragStart={() => {
+          if (isRotating) return;
+          stopRotateTimer();
+          setIsDragging(true);
+          if (onDragStart) onDragStart();
+        }}
+        onDragEnd={(e, info) => {
+          setIsDragging(false);
+          const isDragHorizontal = Math.abs(info.offset.x) > 30;
+          onDragEnd(card.id, x.get(), y.get(), status, isDragHorizontal);
+        }}
+        onClick={(e) => {
+          e.stopPropagation();
+          if (isLongPressActive.current) return;
+          onClick(card.id);
+        }}
+        animate={{
+          rotateZ: currentRotateZ,
+          rotateY: targetRotateY,
+          zIndex: isDragging ? 999 : zIndex
+        }}
+        initial={false}
+        transition={{
+          type: "spring",
+          stiffness: 300,
+          damping: 30
+        }}
       >
+        {/* 牌背 */}
         <div
           className="absolute inset-0 w-full h-full rounded-xl border border-white/20 overflow-hidden bg-[#1e1332]"
-          style={{ backfaceVisibility: 'hidden' }}
+          style={{ backfaceVisibility: 'hidden', WebkitBackfaceVisibility: 'hidden' }}
         >
-          <img src={CARD_BACK_IMAGE} alt="Card Back" className="w-full h-full object-cover pointer-events-none" draggable={false} />
+          <img src={backImage || CARD_BACK_IMAGE} alt="Card Back" className="w-full h-full object-cover pointer-events-none" draggable={false} />
           <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/5 to-white/10 mix-blend-overlay"></div>
         </div>
 
+        {/* 牌面 */}
         <div
           className="absolute inset-0 w-full h-full rounded-xl border border-brand-500/50 overflow-hidden bg-white shadow-lg"
-          style={{ transform: 'rotateY(180deg)', backfaceVisibility: 'hidden' }}
+          style={{ transform: 'rotateY(180deg)', backfaceVisibility: 'hidden', WebkitBackfaceVisibility: 'hidden' }}
         >
           <img src={card.image_url} alt={card.name} className="w-full h-full object-cover pointer-events-none" draggable={false} />
           <div className="absolute inset-0 bg-gradient-to-tr from-brand-900/40 to-transparent mix-blend-multiply"></div>
         </div>
-      </div>
-    </motion.div>
+      </motion.div>
+    </div>
   );
 };

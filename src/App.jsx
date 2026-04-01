@@ -1,8 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
-import { MOCK_CARDS } from './data/mockCards';
+import { DECKS } from './data/deckData';
 import { Card } from './components/Card';
 import { CardModal } from './components/CardModal';
+import { DeckSelectPage } from './components/DeckSelectPage';
+import { DCSettingsPage } from './components/DCSettingsPage';
 import { ZoomIn, ZoomOut, CircleDot, LogOut, Loader } from 'lucide-react';
 
 function App() {
@@ -10,6 +12,18 @@ function App() {
   const [isDeckFanned, setIsDeckFanned] = useState(false);
   const [selectedCardId, setSelectedCardId] = useState(null);
   const [drawingCardId, setDrawingCardId] = useState(null);
+
+  const [activeDeckIndex, setActiveDeckIndex] = useState(0);
+
+  const [currentPage, setCurrentPage] = useState('playmat'); // 'playmat', 'deckSelect', 'dcSettings'
+  const [activeDeckId, setActiveDeckId] = useState('mystagogus');
+  const [dcSettings, setDcSettings] = useState({
+    cardCounter: true,
+    onlyMajorArcana: false,
+    onlyUpright: true
+  });
+
+  const [deckConfigs, setDeckConfigs] = useState({}); // 记录每个牌组的 { cardId: { selected: boolean, rotation: number } }
 
   const [globalScale, setGlobalScale] = useState(1);
   const [deckIndexOffset, setDeckIndexOffset] = useState(0);
@@ -20,21 +34,44 @@ function App() {
 
   const [dimensions, setDimensions] = useState({ width: window.innerWidth, height: window.innerHeight });
 
+  const activeDeck = DECKS.find(d => d.id === activeDeckId) || DECKS[0];
+
   useEffect(() => {
-    const initialCards = MOCK_CARDS.map((card, i) => ({
-      ...card,
-      status: 'deck',
-      deckIndex: i,
-      boardX: 0,
-      boardY: 0,
-      isFlipped: false,
-    }));
+    const currentDeckConfig = deckConfigs[activeDeckId] || {};
+    
+    let sourceCards = activeDeck.cards.filter(c => {
+      // 检查当前卡牌是否被取消选中
+      if (currentDeckConfig[c.id] && currentDeckConfig[c.id].selected === false) return false;
+      return true;
+    });
+    
+    if (dcSettings.onlyMajorArcana) {
+      sourceCards = sourceCards.filter(c => c.isMajor);
+    }
+
+    const initialCards = sourceCards.map((card, i) => {
+      const predefinedRotation = currentDeckConfig[card.id]?.rotation || 0;
+      return {
+        ...card,
+        status: 'deck',
+        deckIndex: i,
+        boardX: 0,
+        boardY: 0,
+        isFlipped: false,
+        boardRotation: predefinedRotation,
+      };
+    });
+    
     setCards(initialCards);
+    setIsDeckFanned(false);
+    setSelectedCardId(null);
+    setDrawingCardId(null);
+    setDeckIndexOffset(0);
 
     const updateDimensions = () => setDimensions({ width: window.innerWidth, height: window.innerHeight });
     window.addEventListener('resize', updateDimensions);
     return () => window.removeEventListener('resize', updateDimensions);
-  }, []);
+  }, [activeDeckId, dcSettings.onlyMajorArcana, deckConfigs]);
 
   const totalCardsCount = cards.length;
 
@@ -114,6 +151,12 @@ function App() {
     setDrawingCardId(null);
   };
 
+  const handleCardRotate = (cardId, newRotation) => {
+    setCards(prev => prev.map(c => 
+      c.id === cardId ? { ...c, boardRotation: newRotation } : c
+    ));
+  };
+
   const handleCardClick = (cardId) => {
     setCards(prev => prev.map(c => {
       if (c.id === cardId) {
@@ -135,14 +178,9 @@ function App() {
     }));
   };
 
-  const handleDoubleClickPlaymat = (e) => {
-    if (e.target.closest('button') || e.target.closest('.card-element')) return;
-    shuffleDeck();
-  };
-
   const shuffleDeck = () => {
     setCards(prev => {
-      let updated = prev.map(c => ({ ...c, status: 'deck', isFlipped: false }));
+      let updated = prev.map(c => ({ ...c, status: 'deck', isFlipped: false, boardRotation: 0 }));
       let indices = updated.map((_, i) => i);
       for (let i = indices.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
@@ -163,19 +201,56 @@ function App() {
   };
 
   const selectedCard = cards.find(c => c.id === selectedCardId);
-  const maxStackedIndex = Math.max(-1, ...cards.filter(c => c.status === 'deck').map(c => c.deckIndex));
+  const remainingDeckRaw = cards.filter(c => c.status === 'deck');
+  const remainingCount = remainingDeckRaw.length;
+  // 获取剩余栈中原来“排得最高”的那个 index
+  const maxStackedIndex = remainingCount > 0 ? Math.max(...remainingDeckRaw.map(c => c.deckIndex)) : -1;
 
-  // 正向指示器：根据中心偏压自动推衍当前牌号
-  let activeDeckIndex = Math.round(totalCardsCount / 2 + deckIndexOffset);
-  activeDeckIndex = Math.max(0, Math.min(totalCardsCount - 1, activeDeckIndex));
-  // 聚拢时强行归为 1
-  const displayNumber = isDeckFanned ? activeDeckIndex + 1 : 1;
+  let displayNumber = remainingCount;
+
+  if (drawingCardId) {
+    const sortedDeck = [...remainingDeckRaw].sort((a, b) => a.deckIndex - b.deckIndex);
+    const cardRenderIndex = sortedDeck.findIndex(c => c.id === drawingCardId);
+    if (cardRenderIndex !== -1) {
+      displayNumber = remainingCount - cardRenderIndex;
+    }
+  } else if (!isDeckFanned) {
+    displayNumber = 1;
+  }
+
+  if (currentPage === 'deckSelect') {
+    return (
+      <DeckSelectPage 
+        currentDeckId={activeDeckId} 
+        onSelect={(id) => { setActiveDeckId(id); setCurrentPage('playmat'); }} 
+        onBack={() => setCurrentPage('playmat')} 
+        onGotoDC={() => setCurrentPage('dcSettings')}
+      />
+    );
+  }
+
+  if (currentPage === 'dcSettings') {
+    return (
+      <DCSettingsPage 
+        deckId={activeDeckId}
+        settings={dcSettings}
+        deckConfig={deckConfigs[activeDeckId] || {}}
+        onUpdateSettings={setDcSettings}
+        onUpdateDeckConfig={(updater) => {
+           setDeckConfigs(prev => ({
+             ...prev,
+             [activeDeckId]: updater(prev[activeDeckId] || {})
+           }));
+        }}
+        onBack={() => setCurrentPage('playmat')}
+      />
+    );
+  }
 
   return (
     <div
       className="relative w-full h-[100dvh] overflow-hidden select-none touch-none"
       style={{ backgroundColor: '#5c2270' }} 
-      onDoubleClick={handleDoubleClickPlaymat}
     >
       <div 
         className="absolute inset-0 opacity-[0.16] mix-blend-overlay pointer-events-none"
@@ -191,7 +266,7 @@ function App() {
       </div>
 
       <div className="absolute top-4 left-6 right-6 flex justify-between items-start z-40 pointer-events-none">
-        <span className="text-white/70 text-lg font-light tracking-wide pointer-events-auto cursor-pointer hover:text-white transition-colors">Help</span>
+        <span onClick={() => setCurrentPage('deckSelect')} className="text-white/70 text-lg font-light tracking-wide pointer-events-auto cursor-pointer hover:text-white transition-colors">Help(Decks)</span>
         <div className="flex flex-col items-end gap-6">
           <span className="text-white/70 text-lg font-light tracking-wide pointer-events-auto cursor-pointer hover:text-white transition-colors">进行提问</span>
           
@@ -215,17 +290,19 @@ function App() {
       <div className="absolute bottom-0 inset-x-0 h-40 bg-gradient-to-t from-black/80 to-transparent pointer-events-none z-30" />
 
       <div className="absolute inset-0 z-40 pointer-events-none">
-        <div className="absolute bottom-[20dvh] w-full text-center">
-          <span className="text-white/90 text-xl font-medium tracking-widest" style={{ textShadow: '0 2px 10px rgba(0,0,0,0.8)' }}>
-            {displayNumber}
-          </span>
-        </div>
+        {dcSettings.cardCounter && (
+          <div className="absolute bottom-[20dvh] w-full text-center">
+            <span className="text-white/90 text-xl font-medium tracking-widest" style={{ textShadow: '0 2px 10px rgba(0,0,0,0.8)' }}>
+              {displayNumber}
+            </span>
+          </div>
+        )}
 
         <div className="absolute bottom-6 left-6 flex flex-col gap-6 pointer-events-auto">
           <button onClick={shuffleDeck} className="text-white/60 hover:text-white hover:rotate-180 transition-all duration-500">
             <Loader size={34} strokeWidth={1.5} />
           </button>
-          <button className="text-white/60 hover:text-white hover:-translate-x-1 transition-all">
+          <button onClick={() => setCurrentPage('deckSelect')} className="text-white/60 hover:text-white hover:-translate-x-1 transition-all">
             <LogOut size={34} strokeWidth={1.5} className="rotate-180" />
           </button>
         </div>
@@ -255,10 +332,12 @@ function App() {
             windowDimensions={dimensions}
             isFlipped={card.isFlipped}
             isSelected={drawingCardId === card.id}
-            isTopStackedCard={!isDeckFanned && card.deckIndex === maxStackedIndex}
+            isTopStackedCard={!isDeckFanned && (remainingCount > 0 ? card.deckIndex === maxStackedIndex : false)}
+            backImage={activeDeck.backImage}
             onDragStart={handleDragStartApp}
             onDragEnd={handleDragEnd}
             onClick={handleCardClick}
+            onRotate={handleCardRotate}
           />
         ))}
       </motion.div>
