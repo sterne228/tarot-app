@@ -180,6 +180,7 @@ export const Card = ({
         marginTop: -cardHeight / 2,
         marginLeft: -cardWidth / 2,
         perspective: 1200,
+        zIndex: isDragging ? 999 : zIndex,
         pointerEvents: 'none',
       }}
     >
@@ -220,7 +221,6 @@ export const Card = ({
         animate={{
           rotateZ: currentRotateZ,
           rotateY: targetRotateY,
-          zIndex: isDragging ? 999 : zIndex
         }}
         initial={false}
         transition={{
