@@ -1,8 +1,584 @@
 // ⚠️ 此文件由 import-deck.js 自动生成，请勿手动编辑
-// 最后生成时间: 2026/4/2 02:25:20
-// 牌组数量: 1
+// 最后生成时间: 2026/4/8 17:58:46
+// 牌组数量: 2
 
 export const GENERATED_DECKS = [
+  {
+    "id": "inner-deck",
+    "name": "inner deck",
+    "nameCN": "inner-deck",
+    "backImage": "/decks/inner-deck/back.jpg",
+    "coverImage": "/decks/inner-deck/bailiff.jpg",
+    "cards": [
+      {
+        "id": "inner-deck-0",
+        "name": "bailiff",
+        "description": "bailiff - inner deck",
+        "image_url": "/decks/inner-deck/bailiff.jpg",
+        "isMajor": true
+      },
+      {
+        "id": "inner-deck-1",
+        "name": "blood ancestor",
+        "description": "blood ancestor - inner deck",
+        "image_url": "/decks/inner-deck/blood-ancestor.jpg",
+        "isMajor": true
+      },
+      {
+        "id": "inner-deck-2",
+        "name": "bridge of death",
+        "description": "bridge of death - inner deck",
+        "image_url": "/decks/inner-deck/bridge-of-death.jpg",
+        "isMajor": true
+      },
+      {
+        "id": "inner-deck-3",
+        "name": "challenge of the gods",
+        "description": "challenge of the gods - inner deck",
+        "image_url": "/decks/inner-deck/challenge-of-the-gods.jpg",
+        "isMajor": true
+      },
+      {
+        "id": "inner-deck-4",
+        "name": "chariot",
+        "description": "chariot - inner deck",
+        "image_url": "/decks/inner-deck/chariot.jpg",
+        "isMajor": true
+      },
+      {
+        "id": "inner-deck-5",
+        "name": "child",
+        "description": "child - inner deck",
+        "image_url": "/decks/inner-deck/child.jpg",
+        "isMajor": true
+      },
+      {
+        "id": "inner-deck-6",
+        "name": "communication",
+        "description": "communication - inner deck",
+        "image_url": "/decks/inner-deck/communication.jpg",
+        "isMajor": true
+      },
+      {
+        "id": "inner-deck-7",
+        "name": "death",
+        "description": "death - inner deck",
+        "image_url": "/decks/inner-deck/death.jpg",
+        "isMajor": true
+      },
+      {
+        "id": "inner-deck-8",
+        "name": "destruction",
+        "description": "destruction - inner deck",
+        "image_url": "/decks/inner-deck/destruction.jpg",
+        "isMajor": true
+      },
+      {
+        "id": "inner-deck-9",
+        "name": "disease",
+        "description": "disease - inner deck",
+        "image_url": "/decks/inner-deck/disease.jpg",
+        "isMajor": true
+      },
+      {
+        "id": "inner-deck-10",
+        "name": "elder",
+        "description": "elder - inner deck",
+        "image_url": "/decks/inner-deck/elder.jpg",
+        "isMajor": true
+      },
+      {
+        "id": "inner-deck-11",
+        "name": "faerie king",
+        "description": "faerie king - inner deck",
+        "image_url": "/decks/inner-deck/faerie-king.jpg",
+        "isMajor": true
+      },
+      {
+        "id": "inner-deck-12",
+        "name": "fate giver",
+        "description": "fate giver - inner deck",
+        "image_url": "/decks/inner-deck/fate-giver.jpg",
+        "isMajor": true
+      },
+      {
+        "id": "inner-deck-13",
+        "name": "fate holder",
+        "description": "fate holder - inner deck",
+        "image_url": "/decks/inner-deck/fate-holder.jpg",
+        "isMajor": true
+      },
+      {
+        "id": "inner-deck-14",
+        "name": "fate taker",
+        "description": "fate taker - inner deck",
+        "image_url": "/decks/inner-deck/fate-taker.jpg",
+        "isMajor": true
+      },
+      {
+        "id": "inner-deck-15",
+        "name": "fellowship",
+        "description": "fellowship - inner deck",
+        "image_url": "/decks/inner-deck/fellowship.jpg",
+        "isMajor": true
+      },
+      {
+        "id": "inner-deck-16",
+        "name": "female warrior",
+        "description": "female warrior - inner deck",
+        "image_url": "/decks/inner-deck/female-warrior.jpg",
+        "isMajor": true
+      },
+      {
+        "id": "inner-deck-17",
+        "name": "foundation  earth, north",
+        "description": "foundation  earth, north - inner deck",
+        "image_url": "/decks/inner-deck/foundation_-earth,-north.jpg",
+        "isMajor": true
+      },
+      {
+        "id": "inner-deck-18",
+        "name": "gate of the past",
+        "description": "gate of the past - inner deck",
+        "image_url": "/decks/inner-deck/gate-of-the-past.jpg",
+        "isMajor": true
+      },
+      {
+        "id": "inner-deck-19",
+        "name": "ghost",
+        "description": "ghost - inner deck",
+        "image_url": "/decks/inner-deck/ghost.jpg",
+        "isMajor": true
+      },
+      {
+        "id": "inner-deck-20",
+        "name": "giver of gifts",
+        "description": "giver of gifts - inner deck",
+        "image_url": "/decks/inner-deck/giver-of-gifts.jpg",
+        "isMajor": true
+      },
+      {
+        "id": "inner-deck-21",
+        "name": "glamour",
+        "description": "glamour - inner deck",
+        "image_url": "/decks/inner-deck/glamour.jpg",
+        "isMajor": true
+      },
+      {
+        "id": "inner-deck-22",
+        "name": "goblin queen",
+        "description": "goblin queen - inner deck",
+        "image_url": "/decks/inner-deck/goblin-queen.jpg",
+        "isMajor": false
+      },
+      {
+        "id": "inner-deck-23",
+        "name": "guardians of the inner desert",
+        "description": "guardians of the inner desert - inner deck",
+        "image_url": "/decks/inner-deck/guardians-of-the-inner-desert.jpg",
+        "isMajor": false
+      },
+      {
+        "id": "inner-deck-24",
+        "name": "healer",
+        "description": "healer - inner deck",
+        "image_url": "/decks/inner-deck/healer.jpg",
+        "isMajor": false
+      },
+      {
+        "id": "inner-deck-25",
+        "name": "hidden knowledge",
+        "description": "hidden knowledge - inner deck",
+        "image_url": "/decks/inner-deck/hidden-knowledge.jpg",
+        "isMajor": false
+      },
+      {
+        "id": "inner-deck-26",
+        "name": "hierophant",
+        "description": "hierophant - inner deck",
+        "image_url": "/decks/inner-deck/hierophant.jpg",
+        "isMajor": false
+      },
+      {
+        "id": "inner-deck-27",
+        "name": "home and hearth",
+        "description": "home and hearth - inner deck",
+        "image_url": "/decks/inner-deck/home-and-hearth.jpg",
+        "isMajor": false
+      },
+      {
+        "id": "inner-deck-28",
+        "name": "idiot",
+        "description": "idiot - inner deck",
+        "image_url": "/decks/inner-deck/idiot.jpg",
+        "isMajor": false
+      },
+      {
+        "id": "inner-deck-29",
+        "name": "inner sanctum",
+        "description": "inner sanctum - inner deck",
+        "image_url": "/decks/inner-deck/inner-sanctum.jpg",
+        "isMajor": false
+      },
+      {
+        "id": "inner-deck-30",
+        "name": "inspiration",
+        "description": "inspiration - inner deck",
+        "image_url": "/decks/inner-deck/inspiration.jpg",
+        "isMajor": false
+      },
+      {
+        "id": "inner-deck-31",
+        "name": "keeper of justice",
+        "description": "keeper of justice - inner deck",
+        "image_url": "/decks/inner-deck/keeper-of-justice.jpg",
+        "isMajor": false
+      },
+      {
+        "id": "inner-deck-32",
+        "name": "limiter  air, east",
+        "description": "limiter  air, east - inner deck",
+        "image_url": "/decks/inner-deck/limiter_-air,-east.jpg",
+        "isMajor": false
+      },
+      {
+        "id": "inner-deck-33",
+        "name": "luna",
+        "description": "luna - inner deck",
+        "image_url": "/decks/inner-deck/luna.jpg",
+        "isMajor": false
+      },
+      {
+        "id": "inner-deck-34",
+        "name": "magical attack",
+        "description": "magical attack - inner deck",
+        "image_url": "/decks/inner-deck/magical-attack.jpg",
+        "isMajor": false
+      },
+      {
+        "id": "inner-deck-35",
+        "name": "magical temple",
+        "description": "magical temple - inner deck",
+        "image_url": "/decks/inner-deck/magical-temple.jpg",
+        "isMajor": false
+      },
+      {
+        "id": "inner-deck-36",
+        "name": "male warrior",
+        "description": "male warrior - inner deck",
+        "image_url": "/decks/inner-deck/male-warrior.jpg",
+        "isMajor": false
+      },
+      {
+        "id": "inner-deck-37",
+        "name": "mother earth x",
+        "description": "mother earth x - inner deck",
+        "image_url": "/decks/inner-deck/mother-earth-x.jpg",
+        "isMajor": false
+      },
+      {
+        "id": "inner-deck-38",
+        "name": "occultist",
+        "description": "occultist - inner deck",
+        "image_url": "/decks/inner-deck/occultist.jpg",
+        "isMajor": false
+      },
+      {
+        "id": "inner-deck-39",
+        "name": "parasite",
+        "description": "parasite - inner deck",
+        "image_url": "/decks/inner-deck/parasite.jpg",
+        "isMajor": false
+      },
+      {
+        "id": "inner-deck-40",
+        "name": "path of hercules",
+        "description": "path of hercules - inner deck",
+        "image_url": "/decks/inner-deck/path-of-hercules.jpg",
+        "isMajor": false
+      },
+      {
+        "id": "inner-deck-41",
+        "name": "place of healing",
+        "description": "place of healing - inner deck",
+        "image_url": "/decks/inner-deck/place-of-healing.jpg",
+        "isMajor": false
+      },
+      {
+        "id": "inner-deck-42",
+        "name": "premonition",
+        "description": "premonition - inner deck",
+        "image_url": "/decks/inner-deck/premonition.jpg",
+        "isMajor": false
+      },
+      {
+        "id": "inner-deck-43",
+        "name": "priestess magician",
+        "description": "priestess magician - inner deck",
+        "image_url": "/decks/inner-deck/priestess-magician.jpg",
+        "isMajor": false
+      },
+      {
+        "id": "inner-deck-44",
+        "name": "pure balance vi",
+        "description": "pure balance vi - inner deck",
+        "image_url": "/decks/inner-deck/pure-balance-vi.jpg",
+        "isMajor": false
+      },
+      {
+        "id": "inner-deck-45",
+        "name": "regenerator  water, west",
+        "description": "regenerator  water, west - inner deck",
+        "image_url": "/decks/inner-deck/regenerator_-water,-west.jpg",
+        "isMajor": false
+      },
+      {
+        "id": "inner-deck-46",
+        "name": "resources",
+        "description": "resources - inner deck",
+        "image_url": "/decks/inner-deck/resources.jpg",
+        "isMajor": false
+      },
+      {
+        "id": "inner-deck-47",
+        "name": "river of dreams",
+        "description": "river of dreams - inner deck",
+        "image_url": "/decks/inner-deck/river-of-dreams.jpg",
+        "isMajor": false
+      },
+      {
+        "id": "inner-deck-48",
+        "name": "scapegoat",
+        "description": "scapegoat - inner deck",
+        "image_url": "/decks/inner-deck/scapegoat.jpg",
+        "isMajor": false
+      },
+      {
+        "id": "inner-deck-49",
+        "name": "seclusion",
+        "description": "seclusion - inner deck",
+        "image_url": "/decks/inner-deck/seclusion.jpg",
+        "isMajor": false
+      },
+      {
+        "id": "inner-deck-50",
+        "name": "shamaness",
+        "description": "shamaness - inner deck",
+        "image_url": "/decks/inner-deck/shamaness.jpg",
+        "isMajor": false
+      },
+      {
+        "id": "inner-deck-51",
+        "name": "sol",
+        "description": "sol - inner deck",
+        "image_url": "/decks/inner-deck/sol.jpg",
+        "isMajor": false
+      },
+      {
+        "id": "inner-deck-52",
+        "name": "spirit guide",
+        "description": "spirit guide - inner deck",
+        "image_url": "/decks/inner-deck/spirit-guide.jpg",
+        "isMajor": false
+      },
+      {
+        "id": "inner-deck-53",
+        "name": "staff of the gods  fire, south",
+        "description": "staff of the gods  fire, south - inner deck",
+        "image_url": "/decks/inner-deck/staff-of-the-gods_-fire,-south.jpg",
+        "isMajor": false
+      },
+      {
+        "id": "inner-deck-54",
+        "name": "temple of ancestors",
+        "description": "temple of ancestors - inner deck",
+        "image_url": "/decks/inner-deck/temple-of-ancestors.jpg",
+        "isMajor": false
+      },
+      {
+        "id": "inner-deck-55",
+        "name": "temptation",
+        "description": "temptation - inner deck",
+        "image_url": "/decks/inner-deck/temptation.jpg",
+        "isMajor": false
+      },
+      {
+        "id": "inner-deck-56",
+        "name": "the abyss",
+        "description": "the abyss - inner deck",
+        "image_url": "/decks/inner-deck/the-abyss.jpg",
+        "isMajor": false
+      },
+      {
+        "id": "inner-deck-57",
+        "name": "the archon and the aion",
+        "description": "the archon and the aion - inner deck",
+        "image_url": "/decks/inner-deck/the-archon-and-the-aion.jpg",
+        "isMajor": false
+      },
+      {
+        "id": "inner-deck-58",
+        "name": "the creator of time ii",
+        "description": "the creator of time ii - inner deck",
+        "image_url": "/decks/inner-deck/the-creator-of-time-ii.jpg",
+        "isMajor": false
+      },
+      {
+        "id": "inner-deck-59",
+        "name": "the grindstone vii",
+        "description": "the grindstone vii - inner deck",
+        "image_url": "/decks/inner-deck/the-grindstone-vii.jpg",
+        "isMajor": false
+      },
+      {
+        "id": "inner-deck-60",
+        "name": "the holder of light iii",
+        "description": "the holder of light iii - inner deck",
+        "image_url": "/decks/inner-deck/the-holder-of-light-iii.jpg",
+        "isMajor": false
+      },
+      {
+        "id": "inner-deck-61",
+        "name": "the imprisoner v",
+        "description": "the imprisoner v - inner deck",
+        "image_url": "/decks/inner-deck/the-imprisoner-v.jpg",
+        "isMajor": false
+      },
+      {
+        "id": "inner-deck-62",
+        "name": "the inner companion",
+        "description": "the inner companion - inner deck",
+        "image_url": "/decks/inner-deck/the-inner-companion.jpg",
+        "isMajor": false
+      },
+      {
+        "id": "inner-deck-63",
+        "name": "the inner librarian",
+        "description": "the inner librarian - inner deck",
+        "image_url": "/decks/inner-deck/the-inner-librarian.jpg",
+        "isMajor": false
+      },
+      {
+        "id": "inner-deck-64",
+        "name": "the inner temple",
+        "description": "the inner temple - inner deck",
+        "image_url": "/decks/inner-deck/the-inner-temple.jpg",
+        "isMajor": false
+      },
+      {
+        "id": "inner-deck-65",
+        "name": "the keeper of the abyss",
+        "description": "the keeper of the abyss - inner deck",
+        "image_url": "/decks/inner-deck/the-keeper-of-the-abyss.jpg",
+        "isMajor": false
+      },
+      {
+        "id": "inner-deck-66",
+        "name": "the leader",
+        "description": "the leader - inner deck",
+        "image_url": "/decks/inner-deck/the-leader.jpg",
+        "isMajor": false
+      },
+      {
+        "id": "inner-deck-67",
+        "name": "the light bearer iv",
+        "description": "the light bearer iv - inner deck",
+        "image_url": "/decks/inner-deck/the-light-bearer-iv.jpg",
+        "isMajor": false
+      },
+      {
+        "id": "inner-deck-68",
+        "name": "the man of nature",
+        "description": "the man of nature - inner deck",
+        "image_url": "/decks/inner-deck/the-man-of-nature.jpg",
+        "isMajor": false
+      },
+      {
+        "id": "inner-deck-69",
+        "name": "the mystic",
+        "description": "the mystic - inner deck",
+        "image_url": "/decks/inner-deck/the-mystic.jpg",
+        "isMajor": false
+      },
+      {
+        "id": "inner-deck-70",
+        "name": "the oracle",
+        "description": "the oracle - inner deck",
+        "image_url": "/decks/inner-deck/the-oracle.jpg",
+        "isMajor": false
+      },
+      {
+        "id": "inner-deck-71",
+        "name": "the protector of souls",
+        "description": "the protector of souls - inner deck",
+        "image_url": "/decks/inner-deck/the-protector-of-souls.jpg",
+        "isMajor": false
+      },
+      {
+        "id": "inner-deck-72",
+        "name": "the star father i",
+        "description": "the star father i - inner deck",
+        "image_url": "/decks/inner-deck/the-star-father-i.jpg",
+        "isMajor": false
+      },
+      {
+        "id": "inner-deck-73",
+        "name": "the unraveller viii",
+        "description": "the unraveller viii - inner deck",
+        "image_url": "/decks/inner-deck/the-unraveller-viii.jpg",
+        "isMajor": false
+      },
+      {
+        "id": "inner-deck-74",
+        "name": "the utterer",
+        "description": "the utterer - inner deck",
+        "image_url": "/decks/inner-deck/the-utterer.jpg",
+        "isMajor": false
+      },
+      {
+        "id": "inner-deck-75",
+        "name": "the weaver of creation",
+        "description": "the weaver of creation - inner deck",
+        "image_url": "/decks/inner-deck/the-weaver-of-creation.jpg",
+        "isMajor": false
+      },
+      {
+        "id": "inner-deck-76",
+        "name": "threshold guardian ix",
+        "description": "threshold guardian ix - inner deck",
+        "image_url": "/decks/inner-deck/threshold-guardian-ix.jpg",
+        "isMajor": false
+      },
+      {
+        "id": "inner-deck-77",
+        "name": "underworld forest",
+        "description": "underworld forest - inner deck",
+        "image_url": "/decks/inner-deck/underworld-forest.jpg",
+        "isMajor": false
+      },
+      {
+        "id": "inner-deck-78",
+        "name": "union",
+        "description": "union - inner deck",
+        "image_url": "/decks/inner-deck/union.jpg",
+        "isMajor": false
+      },
+      {
+        "id": "inner-deck-79",
+        "name": "wheel of fate",
+        "description": "wheel of fate - inner deck",
+        "image_url": "/decks/inner-deck/wheel-of-fate.jpg",
+        "isMajor": false
+      },
+      {
+        "id": "inner-deck-80",
+        "name": "wise teacher",
+        "description": "wise teacher - inner deck",
+        "image_url": "/decks/inner-deck/wise-teacher.jpg",
+        "isMajor": false
+      }
+    ]
+  },
   {
     "id": "mystagogus",
     "name": "mystagogus",
