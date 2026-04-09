@@ -29,15 +29,22 @@ echo "📦 正在提取图片..."
 cp -r "$SOURCE_DIR"/*.png "$SOURCE_DIR"/*.jpg "$SOURCE_DIR"/*.jpeg "$TARGET_DIR"/ 2>/dev/null
 
 # 3. 压缩图片 (将所有 PNG 转为 JPG，这为了防止浏览器内存爆仓)
-echo "🗜️ 正在压缩并优化图片 (PNG -> JPG 转换)..."
+echo "🗜️ 正在压缩并优化图片 (无损缩小至 800px、转为 JPG)..."
 for f in "$TARGET_DIR"/*.png; do
   if [ -f "$f" ]; then
     newname="${f%.png}.jpg"
-    # 用 macOS 自带的 sips 进行压缩
-    sips -s format jpeg -s formatOptions 75 "$f" --out "$newname" >/dev/null 2>&1
+    # 用 macOS 自带的 sips 进行按比例缩放（最大边 800px），并转为 jpg
+    sips -Z 800 -s format jpeg -s formatOptions 75 "$f" --out "$newname" >/dev/null 2>&1
     if [ $? -eq 0 ]; then
        rm "$f" # 转换成功后删除原体积庞大的 png
     fi
+  fi
+done
+
+# 对于源文件原本就是 jpg/jpeg 的，也进行一次缩放压缩
+for f in "$TARGET_DIR"/*.jpg "$TARGET_DIR"/*.jpeg; do
+  if [ -f "$f" ]; then
+    sips -Z 800 -s formatOptions 75 "$f" --out "$f" >/dev/null 2>&1
   fi
 done
 
